@@ -9,7 +9,7 @@ The second part is to run the script "Trajectory_simulation.py", where the exist
 To obtain the results for different measurement processes, one needs to change the forms of the measurement operator and their corresponding intitial states as provided in the scripts.
 
 Details for simulation cases.
-Case 1. Use operator \hat c = \sqrt{\gamma/2}\hat \sigma_z with the initial state |+x> for spin 1/2 system.
+Case 1. Use operator $\hat c = \sqrt{\gamma/2}\hat \sigma_z$ with the initial state |+x> for spin 1/2 system.
 Case 2. Use operator \hat c = \sqrt{\gamma}\hat \sigma_- with the initial state |+x> for spin 1/2 system.
 Case 3. Use operator \hat c = \sqrt{\gamma}\hat \sigma_- with the initial state |+x> for spin 1 system.
 Case 4. Use operator \hat c = \sqrt{\gamma}\hat \sigma_- with the initial state |+x> for spin 3/2 system.
