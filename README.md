@@ -54,7 +54,7 @@ These are explicitly defined in the scripts and can be adjusted directly.
  - Example 5. Use operator $\hat c = \sqrt{\gamma/2}\hat \sigma_z$ with the initial state $|+x\rangle$ for spin 1 system.
 
 ### Numerical results (error analysis)
-![Simulation_results.pdf](https://github.com/natwonglakhon/High-order-quantum-trajectory-simulation/blob/805dbf712fb9a189e6cb7f455078c2d5925391a0/Simulation_results.pdf?raw=true)
+![Simulation_results](https://github.com/natwonglakhon/High-order-quantum-trajectory-simulation/blob/805dbf712fb9a189e6cb7f455078c2d5925391a0/Simulation_results.pdf?raw=true)
 
 ### Notes 
  - The scripts are designed to be run sequentially.
