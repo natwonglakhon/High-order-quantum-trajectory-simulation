@@ -35,7 +35,9 @@ This script:
  - Performs trace-distance analysis and generates histograms for comparison
 
 Example of simulation procedures:
-![Simulation procedures](Simulation_Procedure.pdf)
+<p align="center">
+  <img src="Simulation_Procedure.pdf" width="500">
+</p>
 
 ### Modifying the measurement process
 To obtain results for different measurement schemes, users may modify:
