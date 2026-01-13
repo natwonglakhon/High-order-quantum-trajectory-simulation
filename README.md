@@ -53,6 +53,11 @@ These are explicitly defined in the scripts and can be adjusted directly.
  - Example 4. Use operator $\hat c = \sqrt{\gamma}\hat \sigma_-$ with the initial state $|+x\rangle$ for spin 3/2 system.
  - Example 5. Use operator $\hat c = \sqrt{\gamma/2}\hat \sigma_z$ with the initial state $|+x\rangle$ for spin 1 system.
 
+### Numerical results (error analysis)
+<p align="center">
+  <img src="Simulation_results.pdf" width="500">
+</p>
+
 ### Notes 
  - The scripts are designed to be run sequentially.
  - Numerical parameters and random seeds can be adjusted within the scripts.
