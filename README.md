@@ -34,6 +34,9 @@ This script:
  - Implements existing (lower- and higher-order) trajectory simulation methods
  - Performs trace-distance analysis and generates histograms for comparison
 
+Example of simulation procedures:
+![Simulation procedures](Simulation_Procedure.pdf)
+
 ### Modifying the measurement process
 To obtain results for different measurement schemes, users may modify:
  - The measurement operator $\hat c$
