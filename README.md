@@ -35,9 +35,7 @@ This script:
  - Performs trace-distance analysis and generates histograms for comparison
 
 Example of simulation procedures:
-<p align="center">
-  <img src="Simulation_Procedure.pdf" width="500">
-</p>
+![Simulation_Procedure.pdf](https://github.com/natwonglakhon/High-order-quantum-trajectory-simulation/blob/934664027ea12c70c527a87a72e3994eed12bd89/Simulation_Procedure.pdf)
 
 ### Modifying the measurement process
 To obtain results for different measurement schemes, users may modify:
