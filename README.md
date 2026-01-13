@@ -2,7 +2,7 @@
 
 This repository contains Python scripts for simulating quantum trajectories
 using higher-order methods from the literature, and for analysing the
-resulting conditioned states via trace-distance measures and histograms.
+resulting conditioned states via trace-distance measures (error analysis).
 
 The code is intended to reproduce the numerical simulations used in our work
 on high-order quantum trajectory reconstruction.
