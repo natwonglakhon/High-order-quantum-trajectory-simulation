@@ -55,7 +55,7 @@ These are explicitly defined in the scripts and can be adjusted directly.
 
 ### Numerical results (error analysis)
 <p align="center">
-  <img src="[Simulation_results.pdf](https://github.com/natwonglakhon/High-order-quantum-trajectory-simulation/blob/805dbf712fb9a189e6cb7f455078c2d5925391a0/Simulation_results.pdf)" width="500">
+  <img src="[Simulation_results.pdf](https://github.com/natwonglakhon/High-order-quantum-trajectory-simulation/blob/805dbf712fb9a189e6cb7f455078c2d5925391a0/Simulation_results.pdf?raw=true)" width="500">
 </p>
 
 ### Notes 
