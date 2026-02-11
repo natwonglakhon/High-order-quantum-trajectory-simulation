@@ -156,7 +156,7 @@ def td(psi1, psi2):
 #Define a function for trace-squared distance (for pure states)
 def td2(psi1, psi2):
     overlap = mul(psi2.conj().T, psi1)*mul(psi1.conj().T, psi2)
-    return 1 - np.trace(overlap)
+    return 2*(1 - np.trace(overlap))
 
 
 #Set parameters
@@ -209,12 +209,22 @@ RBa = np.sum(np.sum(Drb,1)/(n))/r;  print("Robinet", RBa)
 Phia = np.sum(np.sum(Dphi,1)/(n))/r;  print("Nearly exact", Phia)
 Ia = np.sum(np.sum(Di,1)/(n))/r;  print("Ito", Ia,"\n") 
 
-# Computing average for the squared distance
-W2a = np.sum(np.sum(Dw2,1)/(n))/r; print("WWC", W2a)  
-R2a = np.sum(np.sum(Dr2,1)/(n))/r;  print("RR", R2a)
-RB2a = np.sum(np.sum(Drb2,1)/(n))/r;  print("Robinet", RB2a)
-Phi2a = np.sum(np.sum(Dphi2,1)/(n))/r;  print("Nearly exact", Phi2a)
-I2a = np.sum(np.sum(Di2,1)/(n))/r;  print("Ito", I2a, "\n")
+# Computing square root time-average Trace-squared errors for histograms
+def tav(a):
+    return np.sum(a,1)/n
+
+Wtav = np.sqrt(tav(Dw2))
+Rtav = np.sqrt(tav(Dr2))
+RBtav = np.sqrt(tav(Drb2))
+Phitav = np.sqrt(tav(Dphi2))
+Itav = np.sqrt(tav(Di2))
+
+# Computing the ensemble-mean of square root time-average Trace-squared errors
+mWtav = np.sum(Wtav)/r; print("mW", mWtav)  
+mRtav = np.sum(Rtav)/r; print("mR", mRtav)  
+mRBtav = np.sum(RBtav)/r; print("mRB", mRBtav)  
+mPhitav = np.sum(Phitav)/r; print("mPhi", mPhitav)  
+mItav = np.sum(Itav)/r; print("mI", mItav)  
 
 print("--- %s seconds ---" % (time.time() - start_time)) 
 
@@ -233,3 +243,10 @@ np.savetxt('Dr2.txt', np.real(Dr2), fmt='%.12e', delimiter=' ', newline='\t')
 np.savetxt('Drb2.txt', np.real(Drb2), fmt='%.12e', delimiter=' ', newline='\t')
 np.savetxt('Dw2.txt', np.real(Dw2), fmt='%.12e', delimiter=' ', newline='\t')
 np.savetxt('Dphi2.txt', np.real(Dphi2), fmt='%.12e', delimiter=' ', newline='\t')   
+
+# Square root time-average Trace-squared errors for histograms
+np.savetxt('Tav_I.txt', np.real(Itav), fmt='%.12e', delimiter=' ', newline='\t')
+np.savetxt('Tav_R.txt', np.real(Rtav), fmt='%.12e', delimiter=' ', newline='\t')
+np.savetxt('Tav_RB.txt', np.real(RBtav), fmt='%.12e', delimiter=' ', newline='\t')
+np.savetxt('Tav_W.txt', np.real(Wtav), fmt='%.12e', delimiter=' ', newline='\t')
+np.savetxt('Tav_Phi.txt', np.real(Phitav), fmt='%.12e', delimiter=' ', newline='\t')
