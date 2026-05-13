@@ -1,60 +1,134 @@
-# High-order Quantum Trajectory Simulation
+# High-Order Quantum Trajectory Simulation
 
-This repository contains Python scripts for simulating quantum trajectories
-using higher-order methods from the literature, and for analysing the
-resulting conditioned states via trace-distance measures (error analysis).
+A Python codebase for simulating and benchmarking quantum trajectory methods using higher-order stochastic integration schemes. The project reproduces numerical results from research on high-order quantum trajectory reconstruction, comparing five distinct simulation maps via trace-distance error analysis.
 
-The code is intended to reproduce the numerical simulations used in our work
-on high-order quantum trajectory reconstruction.
+---
+
+## Overview
+
+Quantum trajectory simulation involves reconstructing a quantum state conditioned on a continuous measurement record. This project implements and compares five maps of varying order:
+
+| Method | Label | Description |
+|---|---|---|
+| Itô map | `I` | First-order stochastic integration |
+| Rouchon–Ralph map | `RR` | Second-order correction map |
+| WWC map | `W` | Higher-order Wiener expansion |
+| Robinet map | `RB` | Third-order stochastic map |
+| Nearly exact map | `Φ` | High-accuracy reference map |
+
+Error is quantified by the **trace distance** between a simulated conditioned state and the true quantum trajectory.
+
+---
+
+## Requirements
+
+Install dependencies with:
+
+```bash
+pip install -r requirements.txt
+```
+
+Dependencies: `numpy==1.26.4`, `scipy==1.11.4`, `matplotlib==3.8.2`
 
 ---
 
 ## Usage
 
-The simulation consists of two main steps.
+The simulation runs in two sequential steps.
 
-### Step 1: Generate true trajectories and measurement records
+### Step 1 — Generate True Trajectories
 
-Run:
+```bash
 python True_Data_Generation.py
+```
 
-This script generates:
- - True quantum trajectories
- - Coarse-grained measurement records $I_t$ and $\phi_t$
- 
-The generated data are saved and used as input for the second step.
+This script evolves quantum states using the Rouchon–Ralph map at a fine time step (`dt = 0.0001`) and produces:
 
-### Step 2: Simulate conditioned quantum trajectories
-Run:
+- `psi_true.npy` — true quantum state trajectories (shape: `[r, n_coarse, dim, 1]`)
+- `ycg.txt` — equally-weighted coarse-grained measurement records *I*<sub>t</sub>
+- `zcg.txt` — time-weighted coarse-grained measurement records *Z*<sub>t</sub>
+
+The coarse-graining window is `Dt = 0.01`, aggregating `N = 100` fine-step records per coarse interval.
+
+### Step 2 — Simulate and Analyse Conditioned Trajectories
+
+```bash
 python Trajectory_simulation.py
+```
 
 This script:
- - Reconstructs quantum trajectories conditioned on the previously generated
- - coarse-grained records
- - Implements existing (lower- and higher-order) trajectory simulation methods
- - Performs trace-distance analysis and generates histograms for comparison
 
-Example of simulation procedures:
-![Simulation_Procedure.pdf](https://github.com/natwonglakhon/High-order-quantum-trajectory-simulation/blob/934664027ea12c70c527a87a72e3994eed12bd89/Simulation_Procedure.pdf)
+1. Loads the coarse-grained records from Step 1
+2. Evolves all five maps at the coarse time step (`Dt = 0.01`) over `r = 5000` realisations
+3. Computes trace distances against the true states
+4. Prints ensemble-averaged errors to the console
+5. Saves all distance arrays and histogram data to `.txt` files
 
-### Modifying the measurement process
-To obtain results for different measurement schemes, users may modify:
- - The measurement operator $\hat c$
- - The corresponding initial quantum state
+### Run Both Steps Together
 
-These are explicitly defined in the scripts and can be adjusted directly.
+```bash
+python run_all.py
+```
 
-### Details for simulation examples. 
- - Example 1. Use operator $\hat c = \sqrt{\gamma/2}\hat \sigma_z$ with the initial state $|+x\rangle$ for spin 1/2 system.
- - Example 2. Use operator $\hat c = \sqrt{\gamma}\hat \sigma_-$ with the initial state $|+x\rangle$ for spin 1/2 system.
- - Example 3. Use operator $\hat c = \sqrt{\gamma}\hat \sigma_-$ with the initial state $|+x\rangle$ for spin 1 system.
- - Example 4. Use operator $\hat c = \sqrt{\gamma}\hat \sigma_-$ with the initial state $|+x\rangle$ for spin 3/2 system.
- - Example 5. Use operator $\hat c = \sqrt{\gamma/2}\hat \sigma_z$ with the initial state $|+x\rangle$ for spin 1 system.
+---
 
-### Numerical results (error analysis)
-![Simulation_results.pdf](https://github.com/natwonglakhon/High-order-quantum-trajectory-simulation/blob/805dbf712fb9a189e6cb7f455078c2d5925391a0/Simulation_results.pdf)
+## Simulation Examples
 
-### Notes 
- - The scripts are designed to be run sequentially.
- - Numerical parameters and random seeds can be adjusted within the scripts.
- - The computational cost depends on the system dimension and time resolution.
+Five measurement scenarios are provided. Select the appropriate operator and initial state in both scripts.
+
+| Example | System | Measurement operator | Initial state |
+|---|---|---|---|
+| 1 | Spin-1/2 | $\hat{c} = \sqrt{\gamma/2}\,\hat{\sigma}_z$ | $\|{+x}\rangle$ |
+| 2 | Spin-1/2 | $\hat{c} = \sqrt{\gamma}\,\hat{\sigma}_-$ | $\|{+x}\rangle$ |
+| 3 | Spin-1 | $\hat{c} = \sqrt{\gamma}\,\hat{S}_-$ | $\|{+x}\rangle$ |
+| 4 | Spin-3/2 | $\hat{c} = \sqrt{\gamma}\,\hat{L}_-$ | $\|{+x}\rangle$ |
+| 5 | Spin-1 | $\hat{c} = \sqrt{\gamma/2}\,\hat{S}_z$ | $\|{+x}\rangle$ |
+
+The measurement operator `K` and initial state `psiIn` are defined near the top of each script and can be switched by commenting/uncommenting the relevant lines.
+
+---
+
+## Output Files
+
+### Trace distances (absolute)
+`Di.txt`, `Dr.txt`, `Drb.txt`, `Dw.txt`, `Dphi.txt`
+
+### Trace distances (squared)
+`Di2.txt`, `Dr2.txt`, `Drb2.txt`, `Dw2.txt`, `Dphi2.txt`
+
+### Time-averaged RMS errors (for histograms)
+`Tav_I.txt`, `Tav_R.txt`, `Tav_RB.txt`, `Tav_W.txt`, `Tav_Phi.txt`
+
+Each file contains a matrix of shape `[r, n_coarse]` (distance files) or a vector of length `r` (time-averaged files).
+
+---
+
+## Error Metrics
+
+Two summary statistics are printed for each method:
+
+- **D̄** — ensemble and time-averaged absolute trace distance
+- **σ̄²** — ensemble mean of the time-averaged squared trace distance
+
+The nearly exact map (Φ) consistently achieves the lowest errors across all examples, confirming its higher-order accuracy.
+
+---
+
+## Modifying the Measurement Process
+
+To adapt the simulation to a different physical setup:
+
+1. **Change the measurement operator** — modify `K` and `Kd` in both `True_Data_Generation.py` and `Trajectory_simulation.py`
+2. **Change the system dimension** — use the appropriate spin matrices (`sx`, `sy`, `sz` for spin-1/2; their spin-1 or spin-3/2 analogues for higher-dimensional systems)
+3. **Change the initial state** — set `psiIn` to the column vector for your desired initial pure state
+
+Ensure the matrix definitions, initial state, and measurement operator are consistent between the two scripts.
+
+---
+
+## Notes
+
+- The scripts must be run **in order**: `True_Data_Generation.py` before `Trajectory_simulation.py`.
+- Computational cost scales with system dimension (state vector size) and the number of realisations `r`.
+- Random seeds are not fixed by default; set `np.random.seed(...)` at the top of `True_Data_Generation.py` for reproducibility.
+- The fine step `dt = 0.0001` and coarse step `Dt = 0.01` can be adjusted, but the ratio `N = Dt/dt` must remain an integer.
